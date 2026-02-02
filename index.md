@@ -118,9 +118,21 @@ This is why some programs stop scaling after 2–4 cores, even on machines with 
 Consider this simple example:
 
 ```c
-// Poor cache locality
+
 for (int i = 0; i < N; i++) {
     sum += array[random_index[i]];
+}
+```
+Each iteration:
+-Likely a cace miss.
+-Fetch from DRAM.
+-300 cycles stall.
+
+Now compare with:
+
+```c
+for (int i = 0; i < N; i++) {
+    sum += array[i];
 }
 ```
 Same number of instructions.  
